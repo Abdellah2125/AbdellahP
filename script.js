@@ -1,10 +1,130 @@
 // script.js
 
+// Language state
+let currentLang = localStorage.getItem('lang') || 'en';
+
+const translations = {
+  en: {
+    logo: 'Abdellah',
+    nav_home: 'Home', nav_about: 'About', nav_skills: 'Skills',
+    nav_services: 'Services', nav_projects: 'Projects', nav_contact: 'Contact',
+    hero_greeting: "Hello! I'm Abdellah", hero_title: 'Front-End Web Developer',
+    hero_subtitle: 'creating engaging websites and smooth user experiences',
+    hero_btn1: 'View My Work', hero_btn2: 'Contact Me',
+    about_title: 'About Me',
+    about_greeting: "I'm Abdellah Boukelia", about_role: 'a passionate Front-End Developer',
+    about_desc1: 'With over <strong>+1 year of experience</strong> in front-end development, I specialize in crafting beautiful, responsive, and user-friendly websites. I turn ideas into reality using the latest web technologies and best practices.',
+    about_desc2: 'I believe that great design and smooth functionality go hand in hand. My goal is to create digital experiences that not only look stunning but also perform flawlessly across all devices.',
+    stat_projects: 'Projects Completed', stat_clients: 'Happy Clients', stat_satisfaction: 'Client Satisfaction',
+    about_btn: "Let's Work Together",
+    skills_title: 'Technical Skills',
+    skills_frontend: 'Front-End Development', skills_tools: 'Tools & Others',
+    skill_responsive: 'Responsive Design', skill_seo: 'SEO Basics', skill_performance: 'Performance Optimization',
+    services_title: 'Services',
+    service1_title: 'Front-End Development', service1_desc: 'Building modern and clean user interfaces using HTML, CSS, and JavaScript with best coding practices.',
+    service2_title: 'UI Implementation', service2_desc: 'Converting Figma and UI designs into responsive and pixel-perfect web interfaces.',
+    service3_title: 'Responsive Design', service3_desc: 'Ensuring websites work perfectly across all screen sizes including mobile, tablet, and desktop.',
+    service4_title: 'Performance Optimization', service4_desc: 'Improving website speed, Core Web Vitals, and overall user experience.',
+    projects_title: 'Featured Projects',
+    filter_all: 'All', filter_landing: 'Landing Pages', filter_ecommerce: 'E-commerce', filter_portfolio: 'Portfolios',
+    project1_title: 'Sidr Honey Landing Page', project1_desc: 'Landing page for Algerian Sidr honey product - Responsive & Modern Design',
+    project2_title: 'Benat Aldaar Kitchen', project2_desc: 'Landing page for a home kitchen - Elegant and Appetizing Design',
+    project3_title: 'Argan Oil Product Page', project3_desc: 'Landing page for Algerian Argan oil - Natural & Organic Focus',
+    live_demo: 'Live Demo →',
+    contact_title: "Let's Connect",
+    contact_subtitle: 'Get in touch',
+    contact_desc: "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out!",
+    contact_location: 'Algeria',
+    name_placeholder: 'Your Name', email_placeholder: 'Your Email', message_placeholder: 'Your Message',
+    send_btn: 'Send Message <i class="fas fa-paper-plane"></i>',
+    phone_title: 'Phone', email_title: 'Email', whatsapp_title: 'WhatsApp',
+    copyright: 'All rights reserved.',
+    footer_home: 'Home', footer_about: 'About', footer_skills: 'Skills', footer_contact: 'Contact',
+  },
+  ar: {
+    logo: 'عبدالله',
+    nav_home: 'الرئيسية', nav_about: 'عنّي', nav_skills: 'المهارات',
+    nav_services: 'الخدمات', nav_projects: 'المشاريع', nav_contact: 'اتصل بي',
+    hero_greeting: 'مرحباً! أنا عبدالله', hero_title: 'مطور واجهات أمامية',
+    hero_subtitle: 'أصنع مواقع ويب جذابة وتجارب مستخدم سلسة',
+    hero_btn1: 'شاهد أعمالي', hero_btn2: 'اتصل بي',
+    about_title: 'عنّي',
+    about_greeting: 'أنا عبدالله بوكالية', about_role: 'مطور واجهات أمامية شغوف',
+    about_desc1: 'مع <strong>+1 سنة خبرة</strong> في تطوير الواجهات الأمامية، أتخصص في بناء مواقع ويب جميلة ومتجاوبة وسهلة الاستخدام. أحول الأفكار إلى واقع باستخدام أحدث تقنيات الويب وأفضل الممارسات.',
+    about_desc2: 'أؤمن بأن التصميم الرائع والوظائف السلسة يسيران جنباً إلى جنب. هدفي هو إنشاء تجارب رقمية لا تبدو مذهلة فحسب، بل تعمل بشكل لا تشوبه شائبة عبر جميع الأجهزة.',
+    stat_projects: 'المشاريع المنجزة', stat_clients: 'عملاء سعداء', stat_satisfaction: 'رضا العملاء',
+    about_btn: 'لنعمل معاً',
+    skills_title: 'المهارات التقنية',
+    skills_frontend: 'تطوير الواجهات', skills_tools: 'الأدوات وغيرها',
+    skill_responsive: 'تصميم متجاوب', skill_seo: 'أساسيات SEO', skill_performance: 'تحسين الأداء',
+    services_title: 'الخدمات',
+    service1_title: 'تطوير واجهات أمامية', service1_desc: 'بناء واجهات مستخدم حديثة ونظيفة باستخدام HTML و CSS و JavaScript مع أفضل ممارسات البرمجة.',
+    service2_title: 'تنفيذ واجهات UI', service2_desc: 'تحويل تصاميم Figma إلى واجهات ويب متجاوبة ومطابقة للتصميم بالكامل.',
+    service3_title: 'تصميم متجاوب', service3_desc: 'ضمان عمل المواقع بشكل مثالي على جميع أحجام الشاشات بما في ذلك الجوال والتابلت وسطح المكتب.',
+    service4_title: 'تحسين الأداء', service4_desc: 'تحسين سرعة الموقع و Core Web Vitals وتجربة المستخدم بشكل عام.',
+    projects_title: 'مشاريع مميزة',
+    filter_all: 'الكل', filter_landing: 'صفحات هبوط', filter_ecommerce: 'متاجر', filter_portfolio: 'موارد أعمال',
+    project1_title: 'صفحة عسل السدر', project1_desc: 'صفحة هبوط لمنتج عسل السدر الجزائري - تصميم متجاوب وعصري',
+    project2_title: 'مطبخ بنات الدار', project2_desc: 'صفحة هبوط لمطبخ منزلي - تصميم أنيق وشهي',
+    project3_title: 'صفحة زيت الأركان', project3_desc: 'صفحة هبوط لزيت الأركان الجزائري - تركيز على الطبيعة والعضوية',
+    live_demo: 'تجربة حية ←',
+    contact_title: 'لنتواصل',
+    contact_subtitle: 'تواصل معي',
+    contact_desc: 'أنا مهتم دائماً بسماع مشاريع وفرص جديدة. سواء كان لديك سؤال أو تريد فقط إلقاء التحية، فلا تتردد في التواصل!',
+    contact_location: 'الجزائر',
+    name_placeholder: 'اسمك', email_placeholder: 'بريدك الإلكتروني', message_placeholder: 'رسالتك',
+    send_btn: 'أرسل الرسالة <i class="fas fa-paper-plane"></i>',
+    phone_title: 'الهاتف', email_title: 'البريد', whatsapp_title: 'واتساب',
+    copyright: 'جميع الحقوق محفوظة.',
+    footer_home: 'الرئيسية', footer_about: 'عنّي', footer_skills: 'المهارات', footer_contact: 'اتصل بي',
+  }
+};
+
+function applyLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang === 'ar' ? 'ar' : 'en';
+  document.body.classList.toggle('rtl', lang === 'ar');
+
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.dataset.key;
+    if (translations[lang][key]) {
+      if (el.placeholder !== undefined) {
+        el.placeholder = translations[lang][key];
+      } else {
+        el.innerHTML = translations[lang][key];
+      }
+    }
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+function setupLanguageSwitcher() {
+  const container = document.querySelector('.language-switch');
+  if (!container) return;
+  container.innerHTML = '';
+  ['en', 'ar'].forEach(lang => {
+    const btn = document.createElement('button');
+    btn.className = 'lang-btn' + (lang === currentLang ? ' active' : '');
+    btn.dataset.lang = lang;
+    btn.textContent = lang === 'en' ? 'EN' : 'AR';
+    btn.addEventListener('click', () => applyLanguage(lang));
+    container.appendChild(btn);
+  });
+}
+
 // Initialize AOS
 AOS.init({
   once: true,
   duration: 800,
 });
+
+// Initialize language
+setupLanguageSwitcher();
+applyLanguage(currentLang);
 
 // Mobile Menu Toggle
 const menuBtn = document.getElementById("menu-btn");
