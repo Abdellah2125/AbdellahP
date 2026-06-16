@@ -9,10 +9,15 @@ AOS.init({
 // Mobile Menu Toggle
 const menuBtn = document.getElementById("menu-btn");
 const nav = document.querySelector(".navigation");
+const overlay = document.getElementById("menuOverlay");
+const body = document.body;
 
 function toggleMenu() {
-  nav.classList.toggle("active");
-  if (nav.classList.contains("active")) {
+  const isActive = nav.classList.toggle("active");
+  overlay.classList.toggle("active", isActive);
+  body.classList.toggle("no-scroll", isActive);
+  
+  if (isActive) {
     menuBtn.classList.remove("fa-bars");
     menuBtn.classList.add("fa-times");
   } else {
@@ -25,12 +30,23 @@ if (menuBtn) {
   menuBtn.addEventListener("click", toggleMenu);
 }
 
+if (overlay) {
+  overlay.addEventListener("click", toggleMenu);
+}
+
 document.querySelectorAll(".navigation a").forEach(link => {
   link.addEventListener("click", () => {
     if (nav.classList.contains("active")) {
       toggleMenu();
     }
   });
+});
+
+// Close menu on resize (if going from mobile to desktop)
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 768 && nav.classList.contains("active")) {
+    toggleMenu();
+  }
 });
 
 // Portfolio Filter
@@ -183,29 +199,25 @@ if (contactForm) {
 // Header background change on scroll
 window.addEventListener('scroll', () => {
   const header = document.querySelector('header');
-  if (window.scrollY > 50) {
-    header.style.background = 'rgba(0, 0, 0, 0.95)';
-  } else {
-    header.style.background = 'rgba(0, 0, 0, 0.8)';
-  }
-});
+  header.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
 
 // Animate progress bars when they come into view
 const observerOptions = {
-  threshold: 0.5,
-  rootMargin: '0px'
+  threshold: 0.3,
+  rootMargin: '50px'
 };
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const progressBars = entry.target.querySelectorAll('.progress');
-      progressBars.forEach(bar => {
+      progressBars.forEach((bar, index) => {
         const width = bar.style.width;
         bar.style.width = '0';
         setTimeout(() => {
           bar.style.width = width;
-        }, 100);
+        }, 100 + (index * 200));
       });
       observer.unobserve(entry.target);
     }
