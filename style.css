@@ -159,39 +159,6 @@ header.scrolled {
   white-space: nowrap;
 }
 
-/* Language switch sits between logo and nav */
-.language-switch {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
-  /* Push it close to the nav, away from the logo */
-  margin-inline-start: auto;
-}
-
-.lang-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(6, 182, 212, 0.3);
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-  transition: all var(--transition);
-  white-space: nowrap;
-}
-
-.lang-btn:hover {
-  background: rgba(6, 182, 212, 0.2);
-  border-color: var(--primary);
-}
-
-.lang-btn.active {
-  background: var(--gradient);
-  border-color: transparent;
-}
-
 /* Desktop nav */
 .navigation {
   display: flex;
@@ -408,13 +375,9 @@ header.scrolled {
    ABOUT SECTION
    ======================================== */
 .about-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(30px, 5vw, 60px);
-  align-items: center;
   max-width: var(--max-width);
   margin-inline: auto;
-  text-align: left;
+  text-align: center;
 }
 
 .about-text h3 {
@@ -436,7 +399,7 @@ header.scrolled {
 
 .about-stats {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   gap: clamp(20px, 4vw, 40px);
   margin-block: 28px;
   flex-wrap: wrap;
@@ -477,34 +440,6 @@ header.scrolled {
   transform: translateY(-3px);
   box-shadow: var(--shadow);
 }
-
-/* Profile image column */
-.about-image {
-  display: block;
-}
-
-.image-wrapper {
-  position: relative;
-  border-radius: 30px;
-  overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
-  aspect-ratio: 4 / 5;
-}
-
-.image-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), transparent);
-  pointer-events: none;
-}
-
 
 /* ========================================
    SKILLS SECTION
@@ -1097,11 +1032,6 @@ footer {
     --py: clamp(55px, 8vh, 80px);
   }
 
-  .about-content {
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-  }
-
   .skills-content {
     grid-template-columns: 1fr 1fr;
     max-width: 800px;
@@ -1113,18 +1043,6 @@ footer {
    RESPONSIVE — Tablet Portrait (≤992px)
    ======================================== */
 @media (max-width: 992px) {
-  /* Stack about into single column, image above text */
-  .about-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .about-image {
-    order: -1;
-    max-width: 340px;
-    margin-inline: auto;
-  }
-
   .about-text {
     max-width: 680px;
     margin-inline: auto;
@@ -1166,17 +1084,6 @@ footer {
 
   .menu-overlay {
     display: block;
-  }
-
-  /* Language switch: shrink buttons, keep between logo & burger */
-  .language-switch {
-    margin-inline-start: auto;
-    gap: 6px;
-  }
-
-  .lang-btn {
-    padding: 4px 10px;
-    font-size: clamp(0.62rem, 2vw, 0.75rem);
   }
 
   /* Slide-in side drawer */
@@ -1234,11 +1141,6 @@ footer {
 
   .social-icons {
     justify-content: center;
-  }
-
-  /* ---- About ---- */
-  .about-image {
-    max-width: 280px;
   }
 
   /* ---- Skills: stack on mobile ---- */
@@ -1375,10 +1277,6 @@ footer {
     font-size: 0.6rem;
   }
 
-  .language-switch {
-    gap: 4px;
-  }
-
   .main h2 span {
     font-size: 1.35rem;
   }
@@ -1387,123 +1285,10 @@ footer {
     padding: 14px 12px;
   }
 
-  .about-image {
-    max-width: 220px;
-  }
 }
 
 
-/* ========================================
-   RTL SUPPORT (Arabic / Hebrew)
-   ======================================== */
-body.rtl {
-  direction: rtl;
-  text-align: right;
-}
 
-body.rtl .main {
-  text-align: right;
-}
-
-body.rtl .navigation a::after {
-  left: auto;
-  right: 0;
-}
-
-body.rtl .about-content {
-  direction: rtl;
-}
-
-body.rtl .about-text p {
-  text-align: justify;
-}
-
-body.rtl .skills-category {
-  text-align: right;
-}
-
-body.rtl .skills-category h3 {
-  flex-direction: row-reverse;
-}
-
-body.rtl .skill-info {
-  direction: ltr; /* keep percentage on the right visually */
-}
-
-body.rtl .skill-tags {
-  justify-content: flex-start;
-}
-
-body.rtl .service-info {
-  text-align: right;
-}
-
-body.rtl .portfolio-info {
-  text-align: right;
-}
-
-body.rtl .portfolio-btn:hover {
-  transform: translateX(-5px);
-}
-
-body.rtl .contact-info-card,
-body.rtl .contact-form {
-  text-align: right;
-}
-
-body.rtl .contact-detail {
-  direction: rtl;
-}
-
-body.rtl .form-group input,
-body.rtl .form-group textarea {
-  text-align: right;
-}
-
-body.rtl .social-icons {
-  flex-direction: row-reverse;
-}
-
-body.rtl .footer-links {
-  flex-direction: row-reverse;
-}
-
-body.rtl .language-switch {
-  margin-inline-start: 0;
-  margin-inline-end: auto;
-}
-
-body.rtl .submit-btn i {
-  order: -1;
-}
-
-/* RTL mobile nav slides from left */
-@media (max-width: 768px) {
-  body.rtl .navigation {
-    right: auto;
-    left: -100%;
-    box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
-    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  body.rtl .navigation.active {
-    left: 0;
-    right: auto;
-  }
-
-  body.rtl .navigation a {
-    transform: translateX(-20px);
-  }
-
-  body.rtl .navigation.active a {
-    transform: translateX(0);
-  }
-
-  body.rtl .language-switch {
-    margin-inline-end: auto;
-    margin-inline-start: 0;
-  }
-}
 
 
 /* ========================================
